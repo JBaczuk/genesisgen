@@ -124,7 +124,7 @@ Transaction *InitTransaction()
 	transaction->locktime = 0;
 	transaction->prevoutIndex = 0xFFFFFFFF;
 	transaction->sequence = 0xFFFFFFFF;
-	transaction->outValue = 50 * COIN; // FIXME: change to the right amount for premine
+	transaction->outValue = 3000000000 * COIN;
 
 	// We initialize the previous output to 0 as there is none
 	memset(transaction->prevOutput, 0, 32);
@@ -151,7 +151,7 @@ int main(int argc, char *argv[])
 	pubkey_len = strlen(argv[1]) / 2; // One byte is represented as two hex characters, thus we divide by two to get real length.
 	timestamp_len = strlen(argv[2]);
 
-	if (pubkey_len != 65)
+	if (pubkey_len != 65 && pubkey_len != 33)
 	{
 		fprintf(stderr, "Invalid public key length! %s\n", argv[1]);
 		return 1;
@@ -318,6 +318,23 @@ int main(int argc, char *argv[])
 	char *merkleHashSwapped = bin2hex(transaction->merkleHash, 32);
 	char *txScriptSig = bin2hex(transaction->scriptSig, scriptSig_len);
 	char *pubScriptSig = bin2hex(transaction->pubkeyScript, pubkeyScript_len);
+
+	// print transaction
+	{
+		fprintf(stdout, "\n\ntransaction version: %x\n", transaction->version);
+		fprintf(stdout, "transaction numInputs: %x\n", transaction->numInputs);
+		fprintf(stdout, "transaction prevOutput: %x\n", *transaction->prevOutput);
+		fprintf(stdout, "transaction prevoutIndex: %x\n", transaction->prevoutIndex);
+		fprintf(stdout, "transaction scriptSig_len: %x\n", scriptSig_len);
+		fprintf(stdout, "transaction scriptSig: %s\n", bin2hex(transaction->scriptSig, scriptSig_len));
+		fprintf(stdout, "transaction sequence: %x\n", transaction->sequence);
+		fprintf(stdout, "transaction numOutputs: %x\n", transaction->numOutputs);
+		fprintf(stdout, "transaction outValue: %llx\n", transaction->outValue);
+		fprintf(stdout, "transaction pubkeyScript_len: %x\n", pubkeyScript_len);
+		fprintf(stdout, "transaction locktime: %x\n", transaction->locktime);
+	}
+
+	printf("\nTransaction: %s\n", bin2hex((const unsigned char *)transaction->serializedData, serializedLen)); // + serializedDatalength? <- seems to be the entire transaction so probably not necessary
 	printf("\nCoinbase: %s\n\nPubkeyScript: %s\n\nMerkle Hash: %s\nByteswapped: %s\n", txScriptSig, pubScriptSig, merkleHash, merkleHashSwapped);
 
 	//if(generateBlock)

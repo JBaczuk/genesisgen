@@ -1,7 +1,6 @@
 # genesisgen
 
-Genesis block generator
-=======================
+# Genesis block generator
 
 This program is based on "Remember remember the 5th of November"'s post [[ANN] Genesis Block Generator](https://bitcointalk.org/index.php?topic=181981.0) with some improvements.
 
@@ -9,8 +8,11 @@ This program is based on "Remember remember the 5th of November"'s post [[ANN] G
 + Add command line arguments for startNonce and unixtime
 + If timestamp string is longer than 76 bytes, add `OP_PUSHDATA1(0x4c)` to scriptSig.
 
-Usage
-=====
+# Dependencies
+This requires openssl, you can install on Ubuntu using:
+`$ sudo apt-get install libssl-dev`
+
+# Usage
 
 ```base
     $ make

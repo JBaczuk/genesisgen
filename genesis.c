@@ -124,7 +124,7 @@ Transaction *InitTransaction()
 	transaction->locktime = 0;
 	transaction->prevoutIndex = 0xFFFFFFFF;
 	transaction->sequence = 0xFFFFFFFF;
-	transaction->outValue = 3000000000 * COIN;
+	transaction->outValue = 1000000 * COIN;
 
 	// We initialize the previous output to 0 as there is none
 	memset(transaction->prevOutput, 0, 32);
@@ -317,7 +317,7 @@ int main(int argc, char *argv[])
 	byteswap(transaction->merkleHash, 32);
 	char *merkleHashSwapped = bin2hex(transaction->merkleHash, 32);
 	char *txScriptSig = bin2hex(transaction->scriptSig, scriptSig_len);
-	char *pubScriptSig = bin2hex(transaction->pubkeyScript, pubkeyScript_len);
+	char *pubKeyScript = bin2hex(transaction->pubkeyScript, pubkeyScript_len);
 
 	// print transaction
 	{
@@ -335,7 +335,9 @@ int main(int argc, char *argv[])
 	}
 
 	printf("\nTransaction: %s\n", bin2hex((const unsigned char *)transaction->serializedData, serializedLen)); // + serializedDatalength? <- seems to be the entire transaction so probably not necessary
-	printf("\nCoinbase: %s\n\nPubkeyScript: %s\n\nMerkle Hash: %s\nByteswapped: %s\n", txScriptSig, pubScriptSig, merkleHash, merkleHashSwapped);
+	printf("\nCoinbase: %s\n\nMerkle Hash: %s\nByteswapped: %s\n", txScriptSig, merkleHash, merkleHashSwapped);
+    printf("\nPubkeyScript: %s\n", pubKeyScript);
+    printf("Don't forget to remove first and last byte of PubkeyScript if using Bitcoin code\n\n");
 
 	//if(generateBlock)
 	{
@@ -399,7 +401,7 @@ int main(int argc, char *argv[])
 	free(merkleHash);
 	free(merkleHashSwapped);
 	free(txScriptSig);
-	free(pubScriptSig);
+	free(pubKeyScript);
 	free(transaction->serializedData);
 	free(transaction->scriptSig);
 	free(transaction->pubkeyScript);

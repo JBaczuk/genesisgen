@@ -329,7 +329,7 @@ int main(int argc, char *argv[])
 		fprintf(stdout, "transaction scriptSig: %s\n", bin2hex(transaction->scriptSig, scriptSig_len));
 		fprintf(stdout, "transaction sequence: %x\n", transaction->sequence);
 		fprintf(stdout, "transaction numOutputs: %x\n", transaction->numOutputs);
-		fprintf(stdout, "transaction outValue: %llx\n", transaction->outValue);
+		fprintf(stdout, "transaction outValue: %lx\n", transaction->outValue);
 		fprintf(stdout, "transaction pubkeyScript_len: %x\n", pubkeyScript_len);
 		fprintf(stdout, "transaction locktime: %x\n", transaction->locktime);
 	}
@@ -371,7 +371,7 @@ int main(int argc, char *argv[])
 				char *blockHash = bin2hex(block_hash2, 32);
 				char *blockHeader = bin2hex(block_header, 80);
 				printf("\nblock_header: %s\n", blockHeader);
-				printf("\nBlock found!\nHash: %s\nNonce: %u\n", blockHash, startNonce);
+				printf("\nBlock found!\nHash: %s\nNonce: %u\nUnix time: %u\n", blockHash, startNonce, unixtime);
 				free(blockHash);
 				break;
 			}
